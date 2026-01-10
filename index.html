@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Amazon Supplements</title>
+    <title>AMAZON</title>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Russo+One&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
@@ -106,12 +106,16 @@
             font-family: 'Roboto', sans-serif; /* Optional: Switch font for English if needed */
         }
         
+        /* Specific overrides for LTR layout */
         html[dir="ltr"] .logo i { margin-right: 5px; margin-left: 0; }
         html[dir="ltr"] .form-group { text-align: left; }
+        /* FIX: Changed selector to be more specific to contact items only, not social icons */
         html[dir="ltr"] .contact-item i { margin-right: 10px; margin-left: 0; } 
-        html[dir="ltr"] .footer-links a::before { content: '\f105'; } 
+        html[dir="ltr"] .footer-links a::before { content: '\f105'; } /* Arrow right */
         html[dir="ltr"] .nav-links a::after { left: 0; right: auto; }
         html[dir="ltr"] .modal-close { left: auto; right: 20px; }
+        html[dir="ltr"] .discount-badge { left: 15px; right: auto; }
+        html[dir="rtl"] .discount-badge { right: 15px; left: auto; }
 
         p, span, div, h1, h2, h3, h4, h5, h6 { letter-spacing: 0.5px; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
@@ -230,15 +234,57 @@
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-bottom: 60px; }
         .product-card { background: var(--bg-card); border-radius: var(--radius-md); transition: var(--transition); position: relative; display: flex; flex-direction: column; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); overflow: hidden; }
         .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: var(--primary-color); }
-        .card-img-box { height: 300px; width: 100%; padding: 10px; position: relative; display: flex; align-items: center; justify-content: center; background: transparent; border-bottom: none; }
-        .card-img-box img { width: 100%; height: 100%; object-fit: contain; transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05)); }
+        
+        .card-img-box { 
+            height: 300px; 
+            width: 100%; 
+            padding: 10px; 
+            position: relative; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            background: transparent; /* No white background */
+            border-bottom: none; 
+            background-size: cover; /* Support for background image */
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .card-img-box img { 
+            width: 100%; 
+            height: 100%; 
+            object-fit: contain; 
+            transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
+            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));
+            z-index: 1; /* Ensure product image is above background */
+        }
+
         .product-card:hover .card-img-box img { transform: scale(1.1); }
-        .card-tag { position: absolute; top: 15px; left: 15px; background: var(--accent-gradient); color: white; padding: 5px 15px; border-radius: 20px; font-size: 12px; font-weight: 900; z-index: 10; box-shadow: 0 4px 10px rgba(255, 63, 52, 0.3); text-transform: uppercase; }
+        
+        /* Discount Badge */
+        .discount-badge { 
+            position: absolute; 
+            top: 15px; 
+            right: 15px; /* RTL default */
+            background: var(--accent-gradient); 
+            color: white; 
+            padding: 5px 12px; 
+            border-radius: 8px; 
+            font-size: 12px; 
+            font-weight: 900; 
+            z-index: 10; 
+            box-shadow: 0 4px 10px rgba(255, 63, 52, 0.4); 
+            text-transform: uppercase; 
+        }
+
         .card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
         .card-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.4; color: var(--text-primary); font-family: var(--font-english); }
         .card-brand-name { font-size: 13px; text-transform: uppercase; color: var(--text-secondary); font-weight: 800; margin-bottom: 5px; letter-spacing: 1px; }
         .card-price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid var(--border-color); }
+        .price-container { display: flex; align-items: baseline; gap: 8px; }
         .price { font-size: 24px; font-weight: 900; color: var(--text-primary); }
+        .old-price { font-size: 16px; text-decoration: line-through; color: var(--text-secondary); font-weight: 600; }
+        
         .add-cart-btn { background: var(--text-primary); color: var(--bg-card); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: var(--transition); font-size: 18px; }
         .add-cart-btn:hover { background: var(--primary-color); color: #fff; transform: rotate(90deg); }
 
@@ -376,9 +422,9 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); backdrop-filter: blur(10px); z-index: 2000; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
         .modal-box { background: var(--bg-card); width: 1000px; max-width: 100%; border-radius: var(--radius-lg); overflow: hidden; display: flex; box-shadow: var(--shadow-lg); position: relative; max-height: 90vh; animation: modalPop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); flex-direction: column; }
         .modal-box.scrollable { overflow-y: auto; }
-        @media(min-width: 768px) { .modal-box:not(.scrollable) { flex-direction: row; } .modal-left { flex: 1.2; height: auto; } .modal-right { flex: 1; overflow-y: auto; } }
+        @media(min-width: 768px) { .modal-box:not(.scrollable) { flex-direction: row; } .modal-left { flex: 1.2; height: auto; background: var(--bg-body); } .modal-right { flex: 1; overflow-y: auto; } }
         @keyframes modalPop { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
-        .modal-left { background: #fff; padding: 40px; display: flex; align-items: center; justify-content: center; height: 300px; }
+        .modal-left { padding: 40px; display: flex; align-items: center; justify-content: center; height: 300px; }
         .modal-right { padding: 40px; display: flex; flex-direction: column; overflow-y: auto; }
         .modal-close { position: absolute; top: 20px; left: 20px; background: var(--bg-body); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: var(--shadow-sm); font-size: 20px; font-weight: bold; }
         
@@ -580,8 +626,8 @@
                         <h1 id="heroTitle">أداء أقوى.<br><span>نتائج أسرع.</span></h1>
                         <p id="heroDesc">احصل على أفضل المكملات الغذائية العالمية بأسعار تنافسية. بروتينات، كرياتين، وفيتامينات أصلية 100%.</p>
                         <div class="hero-btns">
-                            <a href="#" onclick="navigate('products', null)" class="btn btn-primary" id="btn-shop-now">تسوق الآن <i class="fas fa-arrow-left"></i></a>
-                            <a href="#" class="btn btn-outline" id="btn-offers">عرض العروض</a>
+                            <a href="#" onclick="viewOffers()" class="btn btn-primary" id="btn-shop-now">تسوق الآن <i class="fas fa-arrow-left"></i></a>
+                            <a href="#" onclick="viewOffers()" class="btn btn-outline" id="btn-offers">عرض العروض</a>
                         </div>
                     </div>
                     <div class="hero-image">
@@ -589,6 +635,15 @@
                     </div>
                 </div>
             </section>
+            
+            <!-- Offers Section -->
+            <div id="offers-section">
+                <div class="section-header">
+                    <h2 class="section-title">العروض المميزة</h2>
+                    <p class="section-subtitle">خصومات حصرية لفترة محدودة</p>
+                </div>
+                <div class="products-grid" id="offers-grid"></div>
+            </div>
             
             <div class="section-header">
                 <h2 class="section-title" id="title-best-sellers">الأكثر مبيعاً</h2>
@@ -729,7 +784,10 @@
                 <div style="color:#f1c40f; margin-bottom: 20px;">
                     <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
                 </div>
-                <h3 id="modal-price" style="font-size:3rem; font-weight:900; color:var(--text-primary); margin-bottom:20px;">$55.00</h3>
+                <div class="price-container">
+                    <h3 id="modal-price" style="font-size:3rem; font-weight:900; color:var(--text-primary); margin-bottom:20px;">$55.00</h3>
+                    <!-- Old Price will be inserted here dynamically -->
+                </div>
                 <p id="modal-desc" style="color:var(--text-secondary); line-height:1.7; margin-bottom:30px; font-size:1.1rem; font-weight:600;"></p>
                 <button class="btn btn-primary" style="width:100%; justify-content:center; padding: 18px;" onclick="addToCartFromModal()" id="modal-add-btn">إضافة إلى السلة <i class="fas fa-shopping-bag"></i></button>
             </div>
@@ -752,7 +810,7 @@
     </div>
 
     <div id="checkoutModal" class="modal-overlay">
-        <div class="modal-box scrollable" style="width: 500px; flex-direction: column; padding: 40px;">
+        <div class="modal-box" style="width: 500px; flex-direction: column; padding: 40px;">
             <div class="modal-close" onclick="closeModal('checkoutModal')"><i class="fas fa-times"></i></div>
             <h2 style="margin-bottom: 20px;">إتمام الطلب</h2>
             <form onsubmit="handleCheckout(event)" style="display:flex; flex-direction:column;">
@@ -841,6 +899,11 @@
                     <label>السعر</label>
                     <input type="number" id="editPrice" class="form-input" required>
                 </div>
+                <!-- Offers Field -->
+                <div class="form-group">
+                    <label>السعر القديم (اختياري للعروض)</label>
+                    <input type="number" id="editOldPrice" class="form-input" placeholder="اتركه فارغاً إذا لم يكن هناك عرض">
+                </div>
                 <div class="form-group">
                     <label>القسم</label>
                     <select id="editCat" class="form-input"></select>
@@ -848,6 +911,18 @@
                 <div class="form-group">
                     <label>البراند</label>
                     <input type="text" id="editBrand" class="form-input">
+                </div>
+                <!-- New: Is Best Seller Checkbox -->
+                <div class="form-group" style="display: flex; align-items: center; gap: 10px;">
+                    <input type="checkbox" id="editIsBestSeller" style="width: 20px; height: 20px;">
+                    <label for="editIsBestSeller" style="margin:0;">عرض في "الأكثر مبيعاً"</label>
+                </div>
+                <div class="form-group">
+                    <label>صورة خلفية للمنتج (اختياري)</label>
+                    <div style="border: 1px dashed var(--border-color); padding: 10px; border-radius: 8px;">
+                        <input type="text" id="editBgImg" class="form-input" style="min-height:auto;" placeholder="رابط الخلفية" style="margin-bottom: 10px;">
+                        <input type="file" id="editBgImgFile" accept="image/*" class="search-input" style="min-height:auto; padding-top: 8px;">
+                    </div>
                 </div>
                 <div class="form-group">
                     <label>صورة المنتج (رابط)</label>
@@ -1141,6 +1216,7 @@
             }
             renderProducts();
             renderHomeProducts(); 
+            renderOffers(); // Render offers
             initCarousel();
         });
 
@@ -1340,6 +1416,14 @@
             document.getElementById('manageOrdersModal').style.display = 'flex';
             document.body.classList.add('no-scroll');
         };
+        
+        // Scroll to Offers section
+        window.viewOffers = function() {
+            const offersSec = document.getElementById('offers-section');
+            if(offersSec) {
+                offersSec.scrollIntoView({behavior: 'smooth'});
+            }
+        };
 
         window.filterCategory = function(cat, event) {
             document.querySelectorAll('.cat-pill').forEach(b => b.classList.remove('active'));
@@ -1393,6 +1477,27 @@
             document.getElementById('modal-cat').innerText = p.category;
             document.getElementById('modal-brand').innerText = p.brand || ""; 
             document.getElementById('modal-desc').innerText = p.desc;
+            
+            // Handle Old Price Display
+            const priceContainer = document.querySelector('.price-container');
+            let priceHtml = `<h3 id="modal-price" style="font-size:3rem; font-weight:900; color:var(--text-primary); margin-bottom:20px;">$${p.price}</h3>`;
+            
+            if(p.oldPrice && Number(p.oldPrice) > Number(p.price)) {
+               priceHtml += `<span class="old-price" style="font-size: 1.5rem; margin-right: 15px;">$${p.oldPrice}</span>`;
+            }
+            // Temporarily replace content to update
+            const tempDiv = document.createElement('div');
+            tempDiv.innerHTML = priceHtml;
+            // Clear existing and append
+            const priceParent = document.getElementById('modal-price').parentElement; 
+            // Better logic: replace innerHTML of a wrapper
+            // Since we modified HTML above to remove price-container from modal static HTML, let's fix it dynamically
+            // Or better, just update two elements.
+            
+            // Let's use the static HTML structure
+             const modalPriceEl = document.getElementById('modal-price');
+             modalPriceEl.innerHTML = `$${p.price} ${p.oldPrice && Number(p.oldPrice) > Number(p.price) ? `<span class="old-price" style="font-size: 0.6em; text-decoration: line-through; color: var(--text-secondary);">$${p.oldPrice}</span>` : ''}`;
+
             document.getElementById('productModal').style.display = 'flex';
             document.body.classList.add('no-scroll');
         };
@@ -1411,10 +1516,13 @@
             document.getElementById('editId').value = p.id;
             document.getElementById('editName').value = p.name;
             document.getElementById('editPrice').value = p.price;
+            document.getElementById('editOldPrice').value = p.oldPrice || ""; // Load Old Price
             document.getElementById('editCat').value = p.category;
             document.getElementById('editBrand').value = p.brand || ""; 
             document.getElementById('editImg').value = p.img;
             document.getElementById('editDesc').value = p.desc;
+            document.getElementById('editBgImg').value = p.bgImg || "";
+            document.getElementById('editIsBestSeller').checked = p.isBestSeller || false;
             document.getElementById('editModal').style.display = 'flex';
             document.body.classList.add('no-scroll');
         };
@@ -1430,19 +1538,29 @@
             e.preventDefault();
             const id = document.getElementById('editId').value;
             let img = document.getElementById('editImg').value;
+            let bgImg = document.getElementById('editBgImg').value;
             const fileInput = document.getElementById('editImgFile');
+            const bgFileInput = document.getElementById('editBgImgFile');
+            const oldPrice = document.getElementById('editOldPrice').value;
+            const isBestSeller = document.getElementById('editIsBestSeller').checked;
 
             if (fileInput.files && fileInput.files[0]) {
                 try { img = await readFileAsBase64(fileInput.files[0]); } catch (err) {}
+            }
+            if (bgFileInput.files && bgFileInput.files[0]) {
+                try { bgImg = await readFileAsBase64(bgFileInput.files[0]); } catch (err) {}
             }
 
             const newP = {
                 id: id ? Number(id) : Date.now(),
                 name: document.getElementById('editName').value,
                 price: document.getElementById('editPrice').value,
+                oldPrice: oldPrice ? Number(oldPrice) : null,
                 category: document.getElementById('editCat').value,
                 brand: document.getElementById('editBrand').value || "Generic", 
                 img: img || 'https://placehold.co/300', 
+                bgImg: bgImg,
+                isBestSeller: isBestSeller,
                 desc: document.getElementById('editDesc').value
             };
 
@@ -1622,6 +1740,7 @@
             renderCategoryFilters();
             renderProducts();
             renderHomeProducts(); // Initial call
+            renderOffers();
             initCarousel();
             updateCartCount();
             applySiteSettings();
@@ -1763,7 +1882,6 @@
             if(adminContainer) adminContainer.innerHTML = filtered.map(p => createCard(p, true)).join('');
         }
         
-        // Function to render products on Home Page
         function renderHomeProducts() {
              const container = document.getElementById('home-products-grid');
              if(!container) return;
@@ -1774,20 +1892,48 @@
                  container.innerHTML = `<div style="grid-column: 1/-1; text-align:center;">لا توجد منتجات حالياً.</div>`;
              }
         }
+        
+        function renderOffers() {
+            const container = document.getElementById('offers-grid');
+            if(!container) return;
+            
+            // Filter products that have oldPrice > price
+            const offers = products.filter(p => p.oldPrice && Number(p.oldPrice) > Number(p.price));
+            
+            if(offers.length > 0) {
+                 container.innerHTML = offers.map(p => createCard(p)).join('');
+                 document.getElementById('offers-section').style.display = 'block';
+            } else {
+                 container.innerHTML = '';
+                 document.getElementById('offers-section').style.display = 'none';
+            }
+        }
 
 
         function createCard(p, admin = false) {
+            let discountBadge = '';
+            if(p.oldPrice && Number(p.oldPrice) > Number(p.price)) {
+                const percent = Math.round(((p.oldPrice - p.price) / p.oldPrice) * 100);
+                discountBadge = `<div class="discount-badge">${percent}% OFF</div>`;
+            }
+
+            // Background logic
+            const bgStyle = p.bgImg ? `background-image: url('${p.bgImg}'); background-size: cover; background-position: center;` : '';
+
             return `
             <div class="product-card">
-                <div class="card-img-box">
-                    ${!admin ? `<span class="card-tag">${p.category}</span>` : ''}
+                ${discountBadge}
+                <div class="card-img-box" style="${bgStyle}">
                     <img src="${p.img}" alt="${p.name}" onerror="this.src='https://placehold.co/300'">
                 </div>
                 <div class="card-content">
                     <div class="card-brand-name">${p.brand}</div>
                     <h3 class="card-title">${p.name}</h3>
                     <div class="card-price-row">
-                        <span class="price">$${p.price}</span>
+                        <div class="price-container">
+                             <span class="price">$${p.price}</span>
+                             ${p.oldPrice && Number(p.oldPrice) > Number(p.price) ? `<span class="old-price">$${p.oldPrice}</span>` : ''}
+                        </div>
                         ${admin ? 
                         `<div style="display:flex; gap:5px;">
                             <button class="add-cart-btn" style="background:#ff4757; color:#fff" onclick="deleteProduct(${p.id})"><i class="fas fa-trash"></i></button>
@@ -1807,24 +1953,37 @@
             const container = document.getElementById('sliderContainer');
             if(!track || !container) return;
             
-            // Cancel previous animation if exists
             if(animationId) cancelAnimationFrame(animationId);
+            
+            // Filter only Best Sellers
+            const items = products.filter(p => p.isBestSeller);
+            
+            if(items.length === 0) {
+                 track.innerHTML = '';
+                 return;
+            }
 
-            const items = products.slice(0, 6); 
-            // Duplicate 4 times to ensure smooth infinite scroll even on wide screens
-            const html = items.map(p => `<div style="width: 280px; flex-shrink: 0;">${createCard(p)}</div>`).join('');
-            track.innerHTML = html + html + html + html; 
+            // Duplicate to ensure smooth infinite scroll
+            // If items are few, duplicate more
+            let repeatCount = 1;
+            if(items.length < 5) repeatCount = 4;
+            else if(items.length < 10) repeatCount = 2;
+            
+            let html = '';
+            for(let i=0; i<repeatCount; i++) {
+                html += items.map(p => `<div style="width: 280px; flex-shrink: 0;">${createCard(p)}</div>`).join('');
+            }
+            track.innerHTML = html; 
             
             let isDown = false;
             let startX;
             let scrollLeft;
             let isAutoScrolling = true;
-            const speed = 1; // Speed of auto scroll
+            const speed = 1; 
 
-            // Drag Events
             const startDrag = (e) => {
                 isDown = true;
-                isAutoScrolling = false; // Stop auto scroll while dragging
+                isAutoScrolling = false; 
                 container.classList.add('active');
                 const pageX = e.pageX || e.touches[0].pageX;
                 startX = pageX - container.offsetLeft;
@@ -1833,7 +1992,7 @@
 
             const endDrag = () => {
                 isDown = false;
-                isAutoScrolling = true; // Resume auto scroll
+                isAutoScrolling = true; 
                 container.classList.remove('active');
             };
 
@@ -1846,30 +2005,24 @@
                 container.scrollLeft = scrollLeft - walk;
             };
 
-            // Mouse events
             container.addEventListener('mousedown', startDrag);
             container.addEventListener('mouseleave', endDrag);
             container.addEventListener('mouseup', endDrag);
             container.addEventListener('mousemove', moveDrag);
 
-            // Touch events
             container.addEventListener('touchstart', startDrag);
             container.addEventListener('touchend', endDrag);
             container.addEventListener('touchmove', moveDrag);
 
-            // Auto Scroll Logic
             function animate() {
                 if(isAutoScrolling && !isDown) {
                     container.scrollLeft += speed;
                 }
-
-                // Infinite Scroll Logic
-                const singleSetWidth = container.scrollWidth / 4;
+                const singleSetWidth = container.scrollWidth / repeatCount;
                 
                 if (container.scrollLeft >= singleSetWidth) {
                     container.scrollLeft -= singleSetWidth;
                 } else if (container.scrollLeft <= 0) {
-                    // Handle backward drag edge case
                      container.scrollLeft += singleSetWidth;
                 }
 
@@ -1901,13 +2054,10 @@
         
         function getWhatsappLink(phone) {
             let p = phone.trim();
-            // Remove non-digits
             p = p.replace(/\D/g, '');
-            // If starts with 07, replace 0 with 964
             if (p.startsWith('07')) {
                 p = '964' + p.substring(1);
             }
-            // If just 7..., add 964 (common issue)
             if (p.startsWith('7') && p.length === 10) {
                 p = '964' + p;
             }
@@ -1918,7 +2068,6 @@
             const list = document.getElementById('adminOrdersList');
             if(!list) return;
             
-            // Sort by date (newest first)
             const sorted = [...ordersData].sort((a,b) => new Date(b.date) - new Date(a.date));
             
             if (sorted.length === 0) {

@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Amazon Supplements</title>
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Russo+One&display=swap" rel="stylesheet">
+    <!-- Google Fonts: Added more sporty/professional fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cairo:wght@400;600;700;900&family=Changa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Orbitron:wght@400;700;900&family=Racing+Sans+One&family=Russo+One&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -15,7 +15,7 @@
            ========================================= */
         :root {
             --font-main: 'Cairo', sans-serif;
-            --font-logo: 'Cinzel Decorative', cursive;
+            --font-logo: 'Russo One', sans-serif; /* Default */
             --font-english: 'Russo One', sans-serif;
             
             /* Premium Light Theme */
@@ -101,11 +101,60 @@
             opacity: 1; /* Fade in when ready */
         }
 
+        /* LTR Support for English */
+        html[dir="ltr"] {
+            font-family: 'Roboto', sans-serif; /* Optional: Switch font for English if needed */
+        }
+        
+        /* Specific overrides for LTR layout */
+        html[dir="ltr"] .logo i { margin-right: 5px; margin-left: 0; }
+        html[dir="ltr"] .form-group { text-align: left; }
+        html[dir="ltr"] .footer-contact i { margin-right: 10px; margin-left: 0; }
+        html[dir="ltr"] .footer-links a::before { content: '\f105'; } /* Arrow right */
+        html[dir="ltr"] .nav-links a::after { left: 0; right: auto; }
+
         p, span, div, h1, h2, h3, h4, h5, h6 { letter-spacing: 0.5px; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
         ul { list-style: none; }
         img { max-width: 100%; display: block; }
         button { font-family: var(--font-main); cursor: pointer; border: none; outline: none; transition: var(--transition); font-weight: 900; text-transform: uppercase; }
+
+        /* LOADING SCREEN */
+        #page-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--bg-body);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease-out, visibility 0.5s ease-out;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid var(--border-color);
+            border-top: 5px solid var(--primary-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+        
+        .loading-text {
+            font-family: var(--font-english);
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            letter-spacing: 2px;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+        @keyframes pulse { 0% { opacity: 0.6; } 50% { opacity: 1; } 100% { opacity: 0.6; } }
 
         /* Header */
         header {
@@ -123,22 +172,24 @@
         .container { max-width: 1280px; margin: 0 auto; padding: 0 20px; }
         .nav-wrapper { display: flex; justify-content: space-between; align-items: center; }
 
+        /* PROFESSIONAL LOGO STYLE */
         .logo {
             font-family: var(--font-logo);
-            font-size: 32px;
+            font-size: 34px; 
             font-weight: 900;
-            background: var(--primary-gradient);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--text-primary); 
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: -1px; 
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             position: relative;
+            /* Font style is handled by JS config now */
         }
         
-        .logo::after { content: ''; position: absolute; bottom: -5px; left: 0; width: 100%; height: 3px; background: var(--accent-gradient); border-radius: 50%; }
+        .logo span { color: var(--primary-color); }
+        .logo i { font-size: 0.8em; color: var(--accent-color); transform: rotate(-15deg); }
+        .logo::after { display: none; }
 
         .nav-links { display: flex; gap: 40px; align-items: center; }
         .nav-links a { font-weight: 800; font-size: 16px; color: var(--text-secondary); position: relative; font-family: var(--font-main); }
@@ -205,14 +256,13 @@
         /* Draggable Slider */
         .slider-wrapper { background: var(--bg-card); padding: 50px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .slider-track-container { 
-            direction: ltr; /* Important for JS calculations */
+            direction: ltr;
             overflow-x: auto; 
             overflow-y: hidden;
             padding: 20px 0; 
             position: relative; 
             cursor: grab;
             white-space: nowrap;
-            /* Hide scrollbar within track but keep dragging */
             scrollbar-width: none; 
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
@@ -244,22 +294,8 @@
             box-shadow: var(--shadow-sm); 
         }
         .brand-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
-        
-        .brand-card img { 
-            width: auto; 
-            height: auto; 
-            max-width: 100%; 
-            max-height: 100%; 
-            object-fit: contain; 
-            transition: var(--transition); 
-            filter: grayscale(100%); 
-            opacity: 0.8;
-        }
-        .brand-card:hover img {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.05);
-        }
+        .brand-card img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; transition: var(--transition); filter: grayscale(100%); opacity: 0.8; }
+        .brand-card:hover img { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
 
         /* Admin Styles & Toolbar */
         .admin-toolbar {
@@ -298,51 +334,17 @@
             transform: translateY(-2px);
         }
 
-        .btn-admin.danger {
-            color: var(--accent-color);
-            border-color: rgba(214, 48, 49, 0.2);
-        }
-        .btn-admin.danger:hover {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
+        .btn-admin.danger { color: var(--accent-color); border-color: rgba(214, 48, 49, 0.2); }
+        .btn-admin.danger:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         /* Form Group Styles */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 800;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-        .form-input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid var(--border-color);
-            background: var(--bg-body);
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            outline: none;
-            transition: var(--transition);
-            font-weight: 600;
-            font-size: 15px;
-        }
-        .form-input:focus {
-            border-color: var(--primary-color);
-            background: var(--bg-card);
-            box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
-        }
-        textarea.form-input {
-            resize: vertical;
-            min-height: 100px;
-            line-height: 1.6;
-        }
+        .form-group { margin-bottom: 20px; text-align: right; }
+        html[dir="ltr"] .form-group { text-align: left; }
+        
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 800; color: var(--text-primary); font-size: 14px; }
+        .form-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 2px solid var(--border-color); background: var(--bg-body); color: var(--text-primary); font-family: var(--font-main); outline: none; transition: var(--transition); font-weight: 600; font-size: 15px; }
+        .form-input:focus { border-color: var(--primary-color); background: var(--bg-card); box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1); }
+        textarea.form-input { resize: vertical; min-height: 100px; line-height: 1.6; }
 
         /* Admin Lists */
         .admin-brands-list { display: flex; flex-direction: column; gap: 15px; width: 100%; overflow-y: auto; max-height: 55vh; padding-right: 5px; flex-grow: 1; }
@@ -372,6 +374,7 @@
         .modal-left { background: #fff; padding: 40px; display: flex; align-items: center; justify-content: center; height: 300px; }
         .modal-right { padding: 40px; display: flex; flex-direction: column; overflow-y: auto; }
         .modal-close { position: absolute; top: 20px; left: 20px; background: var(--bg-body); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: var(--shadow-sm); font-size: 20px; font-weight: bold; }
+        html[dir="ltr"] .modal-close { left: auto; right: 20px; }
 
         /* Footer */
         .site-footer {
@@ -457,6 +460,33 @@
             font-size: 1.1rem;
             margin-top: 4px;
         }
+        
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--bg-body);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition);
+            border: 2px solid var(--border-color);
+            font-size: 18px;
+        }
+        
+        .social-icon:hover {
+            background: var(--primary-color);
+            color: #fff;
+            border-color: transparent;
+            transform: translateY(-3px);
+        }
 
         .copy-right {
             text-align: center;
@@ -505,16 +535,22 @@
     </style>
 </head>
 <body>
+    
+    <!-- Loader -->
+    <div id="page-loader">
+        <div class="spinner"></div>
+        <div class="loading-text">AMAZON</div>
+    </div>
 
     <!-- Navbar -->
     <header>
         <div class="container nav-wrapper">
             <button class="hamburger" onclick="toggleMenu()"><i class="fas fa-bars"></i></button>
-            <div class="logo">AMAZON</div>
+            <div class="logo"><i class="fas fa-dumbbell"></i> <span>AMAZON</span></div>
             <nav class="nav-links" id="navLinks">
-                <a href="#" onclick="navigate('home', event)" class="active">الرئيسية</a>
-                <a href="#" onclick="navigate('products', event)">المنتجات</a>
-                <a href="#" onclick="navigate('categories', event)">الأقسام</a>
+                <a href="#" onclick="navigate('home', event)" class="active" id="nav-home">الرئيسية</a>
+                <a href="#" onclick="navigate('products', event)" id="nav-products">المنتجات</a>
+                <a href="#" onclick="navigate('categories', event)" id="nav-categories">الأقسام</a>
             </nav>
             <div class="nav-icons">
                 <button class="icon-btn" id="themeSwitcherBtn" onclick="openThemeModal()" title="تغيير المظهر"><i class="fas fa-palette"></i></button>
@@ -537,8 +573,8 @@
                         <h1 id="heroTitle">أداء أقوى.<br><span>نتائج أسرع.</span></h1>
                         <p id="heroDesc">احصل على أفضل المكملات الغذائية العالمية بأسعار تنافسية. بروتينات، كرياتين، وفيتامينات أصلية 100%.</p>
                         <div class="hero-btns">
-                            <a href="#" onclick="navigate('products', null)" class="btn btn-primary">تسوق الآن <i class="fas fa-arrow-left"></i></a>
-                            <a href="#" class="btn btn-outline">عرض العروض</a>
+                            <a href="#" onclick="navigate('products', null)" class="btn btn-primary" id="btn-shop-now">تسوق الآن <i class="fas fa-arrow-left"></i></a>
+                            <a href="#" class="btn btn-outline" id="btn-offers">عرض العروض</a>
                         </div>
                     </div>
                     <div class="hero-image">
@@ -548,8 +584,8 @@
             </section>
             
             <div class="section-header">
-                <h2 class="section-title">الأكثر مبيعاً</h2>
-                <p class="section-subtitle">منتجات يثق بها المحترفون</p>
+                <h2 class="section-title" id="title-best-sellers">الأكثر مبيعاً</h2>
+                <p class="section-subtitle" id="subtitle-best-sellers">منتجات يثق بها المحترفون</p>
             </div>
             
             <div class="slider-wrapper">
@@ -559,14 +595,14 @@
             </div>
 
             <div class="section-header">
-                <h2 class="section-title">أحدث المنتجات</h2>
+                <h2 class="section-title" id="title-latest">أحدث المنتجات</h2>
             </div>
             <div class="products-grid" id="home-products-grid"></div>
 
             <section class="brands-section">
                 <div class="section-header">
-                    <h2 class="section-title">تسوق حسب العلامة التجارية</h2>
-                    <p class="section-subtitle">أشهر الماركات العالمية في مكان واحد</p>
+                    <h2 class="section-title" id="title-brands">تسوق حسب العلامة التجارية</h2>
+                    <p class="section-subtitle" id="subtitle-brands">أشهر الماركات العالمية في مكان واحد</p>
                 </div>
                 <div class="brands-grid" id="brandsGrid"></div>
             </section>
@@ -575,8 +611,8 @@
         <!-- CATEGORIES PAGE -->
         <div id="categories-page" class="page-section hidden">
             <div class="section-header">
-                <h2 class="section-title">تصفح الأقسام</h2>
-                <p class="section-subtitle">كل ما تحتاجه للوصول لهدفك</p>
+                <h2 class="section-title" id="title-categories">تصفح الأقسام</h2>
+                <p class="section-subtitle" id="subtitle-categories">كل ما تحتاجه للوصول لهدفك</p>
             </div>
             <div class="categories-grid" id="categoriesGrid"></div>
         </div>
@@ -584,7 +620,7 @@
         <!-- PRODUCTS PAGE -->
         <div id="products-page" class="page-section hidden">
             <div class="section-header">
-                <h2 class="section-title">جميع المنتجات</h2>
+                <h2 class="section-title" id="title-all-products">جميع المنتجات</h2>
             </div>
             <div class="filters-container">
                 <div style="flex: 1; min-width: 250px;">
@@ -632,36 +668,40 @@
         <div class="container">
             <div class="footer-grid">
                 <div class="footer-col">
-                    <h4>AMAZON SUPPS</h4>
-                    <p>المصدر الأول للمكملات الغذائية الأصلية. نوفر لك أفضل العلامات التجارية العالمية لضمان تحقيق أهدافك الرياضية.</p>
+                    <h4>AMAZON</h4>
+                    <p id="footer-desc">المصدر الأول للمكملات الغذائية الأصلية. نوفر لك أفضل العلامات التجارية العالمية لضمان تحقيق أهدافك الرياضية.</p>
                 </div>
                 <div class="footer-col footer-contact">
-                    <h4>تواصل معنا</h4>
+                    <h4 id="footer-contact-title">تواصل معنا</h4>
                     <div class="contact-list">
                         <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
-                            <span>بغداد، شارع المتنبي، مجمع الرياضة</span>
+                            <span id="footerAddress">بغداد، شارع المتنبي، مجمع الرياضة</span>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-phone-alt"></i>
-                            <span style="direction: ltr;">+964 770 123 4567</span>
+                            <span style="direction: ltr;" id="footerPhone">+964 770 123 4567</span>
                         </div>
                         <div class="contact-item">
                             <i class="fas fa-envelope"></i>
-                            <span>support@amazonsupps.com</span>
+                            <span id="footerEmail">support@amazon.com</span>
                         </div>
+                    </div>
+                    <!-- Dynamic Social Icons -->
+                    <div class="social-icons" id="footerSocials">
+                        <!-- Filled by JS -->
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h4>روابط سريعة</h4>
+                    <h4 id="footer-links-title">روابط سريعة</h4>
                     <div class="footer-links">
-                        <a href="#" onclick="navigate('home', null)">الرئيسية</a>
-                        <a href="#" onclick="navigate('products', null)">المنتجات</a>
-                        <a href="#" onclick="navigate('categories', null)">الأقسام</a>
+                        <a href="#" onclick="navigate('home', null)" id="footer-home">الرئيسية</a>
+                        <a href="#" onclick="navigate('products', null)" id="footer-products">المنتجات</a>
+                        <a href="#" onclick="navigate('categories', null)" id="footer-categories">الأقسام</a>
                     </div>
                 </div>
             </div>
-            <div class="copy-right">&copy; 2024 Amazon Supplements. All Rights Reserved.</div>
+            <div class="copy-right">&copy; 2026 Amazon. All Rights Reserved.</div>
         </div>
     </footer>
 
@@ -681,7 +721,7 @@
                 </div>
                 <h3 id="modal-price" style="font-size:3rem; font-weight:900; color:var(--text-primary); margin-bottom:20px;">$55.00</h3>
                 <p id="modal-desc" style="color:var(--text-secondary); line-height:1.7; margin-bottom:30px; font-size:1.1rem; font-weight:600;"></p>
-                <button class="btn btn-primary" style="width:100%; justify-content:center; padding: 18px;" onclick="addToCartFromModal()">إضافة إلى السلة <i class="fas fa-shopping-bag"></i></button>
+                <button class="btn btn-primary" style="width:100%; justify-content:center; padding: 18px;" onclick="addToCartFromModal()" id="modal-add-btn">إضافة إلى السلة <i class="fas fa-shopping-bag"></i></button>
             </div>
         </div>
     </div>
@@ -793,6 +833,26 @@
             <h2 style="margin-bottom: 20px;">إعدادات الموقع</h2>
             <form onsubmit="handleSettingsSubmit(event)">
                 <div class="form-group">
+                    <label>لغة الموقع (Website Language)</label>
+                    <select id="setLanguage" class="form-input">
+                        <option value="ar">العربية (Arabic)</option>
+                        <option value="en">English (الإنجليزية)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>خط الشعار (Logo Font)</label>
+                    <select id="setLogoFont" class="form-input">
+                        <option value="'Russo One', sans-serif">Russo One (Sporty)</option>
+                        <option value="'Cinzel Decorative', cursive">Cinzel Decorative (Luxury)</option>
+                        <option value="'Black Ops One', system-ui">Black Ops One (Strong)</option>
+                        <option value="'Racing Sans One', system-ui">Racing Sans One (Fast)</option>
+                        <option value="'Orbitron', sans-serif">Orbitron (Futuristic)</option>
+                        <option value="'Cairo', sans-serif">Cairo (Modern Arabic)</option>
+                        <option value="'Changa', sans-serif">Changa (Bold Arabic)</option>
+                        <option value="'Tajawal', sans-serif">Tajawal (Clean Arabic)</option>
+                    </select>
+                </div>
+                <div class="form-group">
                     <label>العنوان الرئيسي</label>
                     <input type="text" id="setHeroTitle" class="form-input" required>
                 </div>
@@ -808,6 +868,37 @@
                     <label>أو رفع صورة</label>
                     <input type="file" id="setHeroImgFile" accept="image/*" class="form-input" style="padding-top:10px;">
                 </div>
+                
+                <hr style="border:0; border-top:1px solid var(--border-color); margin: 20px 0;">
+                
+                <h3 style="margin-bottom:15px; font-size:16px;">معلومات التواصل (الفوتر)</h3>
+                <div class="form-group">
+                    <label>العنوان</label>
+                    <input type="text" id="setAddress" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>الهاتف</label>
+                    <input type="text" id="setPhone" class="form-input">
+                </div>
+                <div class="form-group">
+                    <label>البريد الإلكتروني</label>
+                    <input type="text" id="setEmail" class="form-input">
+                </div>
+
+                <h3 style="margin-bottom:15px; font-size:16px;">روابط التواصل الاجتماعي</h3>
+                <div class="form-group">
+                    <label><i class="fab fa-facebook"></i> فيسبوك</label>
+                    <input type="text" id="setFb" class="form-input" placeholder="رابط فيسبوك">
+                </div>
+                <div class="form-group">
+                    <label><i class="fab fa-instagram"></i> انستغرام</label>
+                    <input type="text" id="setInsta" class="form-input" placeholder="رابط انستغرام">
+                </div>
+                <div class="form-group">
+                    <label><i class="fab fa-whatsapp"></i> واتساب (رابط)</label>
+                    <input type="text" id="setWhatsapp" class="form-input" placeholder="https://wa.me/...">
+                </div>
+
                 <button type="submit" class="btn btn-primary" style="width:100%; justify-content: center;">حفظ الإعدادات</button>
             </form>
         </div>
@@ -897,7 +988,7 @@
             appId: "1:70112873200:web:b8ef2b3863be6f1bf39035"
         };
 
-        let animationId = null; // Global variable defined first
+        let animationId = null; 
 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
@@ -908,7 +999,53 @@
         const brandsDocRef = doc(db, "app_data", "brands");
         const categoriesDocRef = doc(db, "app_data", "categories");
 
-        // Global State
+        /* TRANSLATIONS DICTIONARY */
+        const translations = {
+            ar: {
+                home: "الرئيسية",
+                products: "المنتجات",
+                categories: "الأقسام",
+                bestSellers: "الأكثر مبيعاً",
+                bestSellersSub: "منتجات يثق بها المحترفون",
+                latestProducts: "أحدث المنتجات",
+                shopBrands: "تسوق حسب العلامة التجارية",
+                shopBrandsSub: "أشهر الماركات العالمية في مكان واحد",
+                browseCats: "تصفح الأقسام",
+                browseCatsSub: "كل ما تحتاجه للوصول لهدفك",
+                allProducts: "جميع المنتجات",
+                all: "الكل",
+                searchPlaceholder: "ابحث عن منتج...",
+                shopNow: "تسوق الآن",
+                viewOffers: "عرض العروض",
+                footerDesc: "المصدر الأول للمكملات الغذائية الأصلية. نوفر لك أفضل العلامات التجارية العالمية لضمان تحقيق أهدافك الرياضية.",
+                contactUs: "تواصل معنا",
+                quickLinks: "روابط سريعة",
+                addToCart: "إضافة إلى السلة"
+            },
+            en: {
+                home: "Home",
+                products: "Products",
+                categories: "Categories",
+                bestSellers: "Best Sellers",
+                bestSellersSub: "Trusted by Professionals",
+                latestProducts: "Latest Products",
+                shopBrands: "Shop by Brand",
+                shopBrandsSub: "World's Top Brands in One Place",
+                browseCats: "Browse Categories",
+                browseCatsSub: "Everything you need to reach your goal",
+                allProducts: "All Products",
+                all: "All",
+                searchPlaceholder: "Search for a product...",
+                shopNow: "Shop Now",
+                viewOffers: "View Offers",
+                footerDesc: "Your #1 source for authentic supplements. Providing top global brands to ensure you reach your athletic goals.",
+                contactUs: "Contact Us",
+                quickLinks: "Quick Links",
+                addToCart: "Add to Cart"
+            }
+        };
+
+        // Global State - Empty by default
         let brandsData = [];
         let categoriesData = [];
         let products = [];
@@ -916,9 +1053,15 @@
         
         let siteConfig = {
             theme: 'light',
+            language: 'ar',
+            logoFont: "'Russo One', sans-serif",
             heroTitle: "أداء أقوى.<br><span>نتائج أسرع.</span>",
             heroDesc: "احصل على أفضل المكملات الغذائية العالمية بأسعار تنافسية. بروتينات، كرياتين، وفيتامينات أصلية 100%.",
-            heroImg: "https://gymers.weebly.com/uploads/5/3/0/4/53045443/3113257_orig.png"
+            heroImg: "https://gymers.weebly.com/uploads/5/3/0/4/53045443/3113257_orig.png",
+            contactAddress: "بغداد، شارع المتنبي، مجمع الرياضة",
+            contactPhone: "+964 770 123 4567",
+            contactEmail: "support@amazon.com",
+            socials: { fb: "", insta: "", whatsapp: "" }
         };
 
         let currentTheme = siteConfig.theme;
@@ -937,11 +1080,14 @@
                 siteConfig = docSnap.data();
                 applySiteSettings();
             } else {
-                // Initialize if not exists
                 setDoc(settingsDocRef, siteConfig);
             }
-            // Reveal site after settings are loaded
-            document.body.classList.add('loaded');
+            
+            const loader = document.getElementById('page-loader');
+            if(loader) {
+                loader.style.opacity = '0';
+                setTimeout(() => loader.style.display = 'none', 500);
+            }
         });
 
         // 2. Products Listener
@@ -1098,6 +1244,20 @@
             document.getElementById('setHeroTitle').value = siteConfig.heroTitle.replace(/<br><span>/g, ' ').replace(/<\/span>/g, '');
             document.getElementById('setHeroDesc').value = siteConfig.heroDesc;
             document.getElementById('setHeroImg').value = siteConfig.heroImg || "";
+            document.getElementById('setLogoFont').value = siteConfig.logoFont || "'Russo One', sans-serif";
+            
+            // New Fields
+            document.getElementById('setAddress').value = siteConfig.contactAddress || "";
+            document.getElementById('setPhone').value = siteConfig.contactPhone || "";
+            document.getElementById('setEmail').value = siteConfig.contactEmail || "";
+            document.getElementById('setLanguage').value = siteConfig.language || "ar";
+            
+            if(siteConfig.socials) {
+                document.getElementById('setFb').value = siteConfig.socials.fb || "";
+                document.getElementById('setInsta').value = siteConfig.socials.insta || "";
+                document.getElementById('setWhatsapp').value = siteConfig.socials.whatsapp || "";
+            }
+
             document.getElementById('settingsModal').style.display = 'flex';
             document.body.classList.add('no-scroll');
         };
@@ -1230,6 +1390,19 @@
             const rawDesc = document.getElementById('setHeroDesc').value;
             let img = document.getElementById('setHeroImg').value;
             const fileInput = document.getElementById('setHeroImgFile');
+            const newLogoFont = document.getElementById('setLogoFont').value;
+            
+            // New Fields
+            const addr = document.getElementById('setAddress').value;
+            const phone = document.getElementById('setPhone').value;
+            const email = document.getElementById('setEmail').value;
+            const lang = document.getElementById('setLanguage').value;
+            
+            const socials = {
+                fb: document.getElementById('setFb').value,
+                insta: document.getElementById('setInsta').value,
+                whatsapp: document.getElementById('setWhatsapp').value
+            };
 
             if (fileInput.files && fileInput.files[0]) {
                 try { img = await readFileAsBase64(fileInput.files[0]); } catch (err) {}
@@ -1237,6 +1410,13 @@
 
             siteConfig.heroTitle = rawTitle; 
             siteConfig.heroDesc = rawDesc;
+            siteConfig.logoFont = newLogoFont;
+            siteConfig.contactAddress = addr;
+            siteConfig.contactPhone = phone;
+            siteConfig.contactEmail = email;
+            siteConfig.language = lang;
+            siteConfig.socials = socials;
+            
             if(img) siteConfig.heroImg = img;
 
             try { await setDoc(settingsDocRef, siteConfig); } catch (e) {}
@@ -1371,13 +1551,68 @@
         }
 
         function applySiteSettings() {
+            // Apply Theme
+            if(siteConfig.theme) {
+                document.documentElement.setAttribute('data-theme', siteConfig.theme);
+            }
+            
+            // Apply Language (Direction)
+            const lang = siteConfig.language || 'ar';
+            document.documentElement.setAttribute('dir', lang === 'en' ? 'ltr' : 'rtl');
+            document.documentElement.setAttribute('lang', lang);
+            
+            // Apply Logo Font
+            if(siteConfig.logoFont) {
+                document.querySelector('.logo').style.fontFamily = siteConfig.logoFont;
+            }
+            
+            // Update Text using Translation Dictionary
+            const t = translations[lang] || translations['ar'];
+            
+            document.getElementById('nav-home').innerText = t.home;
+            document.getElementById('nav-products').innerText = t.products;
+            document.getElementById('nav-categories').innerText = t.categories;
+            document.getElementById('footer-home').innerText = t.home;
+            document.getElementById('footer-products').innerText = t.products;
+            document.getElementById('footer-categories').innerText = t.categories;
+
+            document.getElementById('title-best-sellers').innerText = t.bestSellers;
+            document.getElementById('subtitle-best-sellers').innerText = t.bestSellersSub;
+            document.getElementById('title-latest').innerText = t.latestProducts;
+            document.getElementById('title-brands').innerText = t.shopBrands;
+            document.getElementById('subtitle-brands').innerText = t.shopBrandsSub;
+            document.getElementById('title-categories').innerText = t.browseCats;
+            document.getElementById('subtitle-categories').innerText = t.browseCatsSub;
+            document.getElementById('title-all-products').innerText = t.allProducts;
+            
+            document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            document.getElementById('btn-shop-now').innerHTML = `${t.shopNow} <i class="fas fa-arrow-${lang === 'en' ? 'right' : 'left'}"></i>`;
+            document.getElementById('btn-offers').innerText = t.viewOffers;
+            document.getElementById('modal-add-btn').innerHTML = `${t.addToCart} <i class="fas fa-shopping-bag"></i>`;
+
+            document.getElementById('footer-desc').innerText = t.footerDesc;
+            document.getElementById('footer-contact-title').innerText = t.contactUs;
+            document.getElementById('footer-links-title').innerText = t.quickLinks;
+
+            // Update Dynamic Content (Contact & Socials)
+            document.getElementById('footerAddress').innerText = siteConfig.contactAddress || "Baghdad, Al-Mutanabbi St.";
+            document.getElementById('footerPhone').innerText = siteConfig.contactPhone || "+964 770 123 4567";
+            document.getElementById('footerEmail').innerText = siteConfig.contactEmail || "support@amazon.com";
+
             document.getElementById('heroTitle').innerHTML = siteConfig.heroTitle;
             document.getElementById('heroDesc').innerHTML = siteConfig.heroDesc;
             const heroImgEl = document.getElementById('heroImgDisplay');
             if(heroImgEl && siteConfig.heroImg) heroImgEl.src = siteConfig.heroImg;
-            if(siteConfig.theme) {
-                document.documentElement.setAttribute('data-theme', siteConfig.theme);
+
+            // Render Social Icons
+            const socialsContainer = document.getElementById('footerSocials');
+            let socialHtml = '';
+            if(siteConfig.socials) {
+                if(siteConfig.socials.fb) socialHtml += `<a href="${siteConfig.socials.fb}" target="_blank" class="social-icon"><i class="fab fa-facebook-f"></i></a>`;
+                if(siteConfig.socials.insta) socialHtml += `<a href="${siteConfig.socials.insta}" target="_blank" class="social-icon"><i class="fab fa-instagram"></i></a>`;
+                if(siteConfig.socials.whatsapp) socialHtml += `<a href="${siteConfig.socials.whatsapp}" target="_blank" class="social-icon"><i class="fab fa-whatsapp"></i></a>`;
             }
+            socialsContainer.innerHTML = socialHtml;
         }
 
         function renderBrands() {
@@ -1411,7 +1646,10 @@
         function renderCategoryFilters() {
             const container = document.getElementById('categoryFilters');
             if (!container) return;
-            let html = `<button class="cat-pill active" data-cat="all" onclick="filterCategory('all', event)">الكل</button>`;
+            const lang = siteConfig.language || 'ar';
+            const t = translations[lang] || translations['ar'];
+            
+            let html = `<button class="cat-pill active" data-cat="all" onclick="filterCategory('all', event)">${t.all}</button>`;
             categoriesData.forEach(c => {
                 html += `<button class="cat-pill" data-cat="${c.name}" onclick="filterCategory('${c.name}', event)">${c.name}</button>`;
             });

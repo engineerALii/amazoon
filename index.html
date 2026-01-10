@@ -3,21 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>AMAZON</title>
-    
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/png" href="fav.PNG">
-    <link rel="shortcut icon" href="fav.PNG" type="image/png">
-    <link rel="apple-touch-icon" href="fav.PNG">
-    <link rel="apple-touch-icon" sizes="76x76" href="fav.PNG">
-    <link rel="apple-touch-icon" sizes="120x120" href="fav.PNG">
-    <link rel="apple-touch-icon" sizes="152x152" href="fav.PNG">
-    <link rel="mask-icon" href="fav.PNG" color="#0984e3">
-    <meta name="msapplication-TileImage" content="fav.PNG">
-    <meta name="msapplication-TileColor" content="#ffffff">
-    
+    <title>Amazon Supplements</title>
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cairo:wght@400;600;700;900&family=Changa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Orbitron:wght@400;700;900&family=Racing+Sans+One&family=Russo+One&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Russo+One&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -27,7 +15,7 @@
            ========================================= */
         :root {
             --font-main: 'Cairo', sans-serif;
-            --font-logo: 'Russo One', sans-serif; /* Default */
+            --font-logo: 'Cinzel Decorative', cursive;
             --font-english: 'Russo One', sans-serif;
             
             /* Premium Light Theme */
@@ -118,12 +106,10 @@
             font-family: 'Roboto', sans-serif; /* Optional: Switch font for English if needed */
         }
         
-        /* Specific overrides for LTR layout */
         html[dir="ltr"] .logo i { margin-right: 5px; margin-left: 0; }
         html[dir="ltr"] .form-group { text-align: left; }
-        /* FIX: Changed selector to be more specific to contact items only, not social icons */
         html[dir="ltr"] .contact-item i { margin-right: 10px; margin-left: 0; } 
-        html[dir="ltr"] .footer-links a::before { content: '\f105'; } /* Arrow right */
+        html[dir="ltr"] .footer-links a::before { content: '\f105'; } 
         html[dir="ltr"] .nav-links a::after { left: 0; right: auto; }
         html[dir="ltr"] .modal-close { left: auto; right: 20px; }
 
@@ -198,7 +184,6 @@
             align-items: center;
             gap: 8px;
             position: relative;
-            /* Font style is handled by JS config now */
         }
         
         .logo span { color: var(--primary-color); }
@@ -270,24 +255,19 @@
         /* Draggable Slider */
         .slider-wrapper { background: var(--bg-card); padding: 50px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .slider-track-container { 
-            direction: ltr; /* Important for JS calculations */
+            direction: ltr;
             overflow-x: auto; 
             overflow-y: hidden;
             padding: 20px 0; 
             position: relative; 
             cursor: grab;
             white-space: nowrap;
-            /* Hide scrollbar within track but keep dragging */
             scrollbar-width: none; 
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
         }
         .slider-track-container::-webkit-scrollbar { display: none; }
-        
-        .slider-track { 
-            display: inline-flex; 
-            gap: 25px; 
-        }
+        .slider-track { display: inline-flex; gap: 25px; }
         .slider-track-container.active { cursor: grabbing; }
 
         /* Brands */
@@ -313,22 +293,8 @@
             box-shadow: var(--shadow-sm); 
         }
         .brand-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
-        
-        .brand-card img { 
-            width: auto; 
-            height: auto; 
-            max-width: 100%; 
-            max-height: 100%; 
-            object-fit: contain; 
-            transition: var(--transition); 
-            filter: grayscale(100%); 
-            opacity: 0.8;
-        }
-        .brand-card:hover img {
-            filter: grayscale(0%);
-            opacity: 1;
-            transform: scale(1.05);
-        }
+        .brand-card img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; transition: var(--transition); filter: grayscale(100%); opacity: 0.8; }
+        .brand-card:hover img { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
 
         /* Admin Styles & Toolbar */
         .admin-toolbar {
@@ -367,51 +333,16 @@
             transform: translateY(-2px);
         }
 
-        .btn-admin.danger {
-            color: var(--accent-color);
-            border-color: rgba(214, 48, 49, 0.2);
-        }
-        .btn-admin.danger:hover {
-            background: var(--accent-color);
-            color: white;
-            border-color: var(--accent-color);
-        }
+        .btn-admin.danger { color: var(--accent-color); border-color: rgba(214, 48, 49, 0.2); }
+        .btn-admin.danger:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
 
         /* Form Group Styles */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-        .form-group label {
-            display: block;
-            margin-bottom: 10px;
-            font-weight: 800;
-            color: var(--text-primary);
-            font-size: 14px;
-        }
-        .form-input {
-            width: 100%;
-            padding: 12px 15px;
-            border-radius: 10px;
-            border: 2px solid var(--border-color);
-            background: var(--bg-body);
-            color: var(--text-primary);
-            font-family: var(--font-main);
-            outline: none;
-            transition: var(--transition);
-            font-weight: 600;
-            font-size: 15px;
-        }
-        .form-input:focus {
-            border-color: var(--primary-color);
-            background: var(--bg-card);
-            box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
-        }
-        textarea.form-input {
-            resize: vertical;
-            min-height: 100px;
-            line-height: 1.6;
-        }
+        .form-group { margin-bottom: 20px; text-align: right; }
+        html[dir="ltr"] .form-group { text-align: left; }
+        .form-group label { display: block; margin-bottom: 10px; font-weight: 800; color: var(--text-primary); font-size: 14px; }
+        .form-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 2px solid var(--border-color); background: var(--bg-body); color: var(--text-primary); font-family: var(--font-main); outline: none; transition: var(--transition); font-weight: 600; font-size: 15px; }
+        .form-input:focus { border-color: var(--primary-color); background: var(--bg-card); box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1); }
+        textarea.form-input { resize: vertical; min-height: 100px; line-height: 1.6; }
 
         /* Admin Lists */
         .admin-brands-list { display: flex; flex-direction: column; gap: 15px; width: 100%; overflow-y: auto; max-height: 55vh; padding-right: 5px; flex-grow: 1; }
@@ -422,6 +353,15 @@
         .admin-brand-item { display: flex; align-items: center; justify-content: space-between; background: var(--bg-body); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color); flex-shrink: 0; }
         .admin-brand-info { display: flex; align-items: center; gap: 15px; }
         .admin-brand-img { width: 60px; height: 40px; object-fit: contain; background: #fff; border-radius: 4px; padding: 5px; }
+
+        /* Order Item Style */
+        .order-item { background: var(--bg-body); border: 1px solid var(--border-color); padding: 20px; border-radius: 10px; display: flex; flex-direction: column; gap: 10px; }
+        .order-header { display: flex; justify-content: space-between; font-weight: 800; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; margin-bottom: 5px; }
+        .order-details { font-size: 0.9em; color: var(--text-secondary); }
+        .order-products { margin-top: 10px; background: var(--bg-card); padding: 10px; border-radius: 5px; }
+        .order-product { display: flex; justify-content: space-between; margin-bottom: 5px; border-bottom: 1px dashed var(--border-color); padding-bottom: 5px; }
+        .whatsapp-btn { display: inline-flex; align-items: center; gap: 8px; background: #25D366; color: white; padding: 8px 15px; border-radius: 50px; text-decoration: none; font-weight: bold; margin-top: 10px; width: fit-content; transition: transform 0.2s; }
+        .whatsapp-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(37, 211, 102, 0.4); }
 
         /* Filters */
         .filters-container { background: var(--bg-card); padding: 15px; border-radius: var(--radius-md); box-shadow: var(--shadow-sm); display: flex; flex-wrap: wrap; gap: 20px; justify-content: space-between; align-items: center; margin-bottom: 40px; border: 1px solid var(--border-color); }
@@ -528,7 +468,6 @@
             display: flex;
             gap: 15px;
             margin-top: 10px;
-            /* Flex direction handles alignment based on dir="ltr/rtl" naturally */
         }
         
         .social-icon {
@@ -545,7 +484,6 @@
             font-size: 18px;
         }
         
-        /* Ensure social icons don't get margins from generic rules */
         .social-icon i {
             margin: 0 !important; 
         }
@@ -721,6 +659,9 @@
                 <button class="btn-admin" onclick="showCategoriesModal()">
                     <i class="fas fa-layer-group"></i> إدارة الأقسام
                 </button>
+                <button class="btn-admin" onclick="showOrdersModal()">
+                    <i class="fas fa-shopping-cart"></i> الطلبات
+                </button>
                 <button class="btn-admin" onclick="showSiteSettingsModal()">
                     <i class="fas fa-cog"></i> إعدادات الموقع
                 </button>
@@ -869,6 +810,20 @@
             </div>
             <button class="btn btn-primary" style="width: 100%; justify-content: center;" onclick="checkLogin()">دخول</button>
             <button style="margin-top: 15px; background: none; color: var(--text-secondary);" onclick="closeLogin()">إلغاء</button>
+        </div>
+    </div>
+
+    <!-- Admin Orders Modal -->
+    <div id="manageOrdersModal" class="modal-overlay">
+        <div class="modal-box scrollable" style="width: 600px; padding: 30px; max-height: 85vh;">
+            <div class="modal-close" onclick="closeModal('manageOrdersModal')"><i class="fas fa-times"></i></div>
+            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; flex-shrink:0;">
+                <h2>الطلبات الواردة</h2>
+                <!-- Optional: Clear all orders button could go here -->
+            </div>
+            <div class="admin-brands-list" id="adminOrdersList">
+                <!-- Orders populated by JS -->
+            </div>
         </div>
     </div>
 
@@ -1082,6 +1037,8 @@
         const productsDocRef = doc(db, "app_data", "products");
         const brandsDocRef = doc(db, "app_data", "brands");
         const categoriesDocRef = doc(db, "app_data", "categories");
+        // NEW: Orders Collection
+        const ordersDocRef = doc(db, "app_data", "orders");
 
         /* TRANSLATIONS DICTIONARY */
         const translations = {
@@ -1133,6 +1090,7 @@
         let brandsData = [];
         let categoriesData = [];
         let products = [];
+        let ordersData = []; // NEW: Orders list
         let cart = JSON.parse(localStorage.getItem('amz_cart')) || [];
         
         let siteConfig = {
@@ -1209,6 +1167,16 @@
             renderCategoriesAdmin();
         });
 
+        // 5. Orders Listener
+        onSnapshot(ordersDocRef, (docSnap) => {
+            if (docSnap.exists()) {
+                ordersData = docSnap.data().list || [];
+            } else {
+                setDoc(ordersDocRef, { list: [] });
+            }
+            renderOrdersAdmin();
+        });
+
         // --- Core Functions ---
         window.navigate = function(page, event) {
             const pageElement = document.getElementById(page + '-page');
@@ -1260,15 +1228,36 @@
             document.body.classList.add('no-scroll');
         };
 
-        window.handleCheckout = function(e) {
+        window.handleCheckout = async function(e) {
             e.preventDefault();
-            showToast("تم استلام طلبك بنجاح! شكراً لثقتك.");
-            cart = [];
-            localStorage.setItem('amz_cart', JSON.stringify(cart));
-            updateCartCount();
-            document.getElementById('checkoutModal').style.display = 'none';
-            document.body.classList.remove('no-scroll');
-            e.target.reset();
+            
+            const name = document.getElementById('custName').value;
+            const phone = document.getElementById('custPhone').value;
+            const gov = document.getElementById('custGov').value;
+            const address = document.getElementById('custAddress').value;
+
+            const newOrder = {
+                id: Date.now(),
+                customer: { name, phone, gov, address },
+                items: cart,
+                total: cart.reduce((a, b) => a + Number(b.price), 0),
+                date: new Date().toISOString()
+            };
+
+            let updatedOrders = [...ordersData, newOrder];
+            
+            try {
+                await setDoc(ordersDocRef, { list: updatedOrders });
+                showToast("تم استلام طلبك بنجاح! شكراً لثقتك.");
+                cart = [];
+                localStorage.setItem('amz_cart', JSON.stringify(cart));
+                updateCartCount();
+                document.getElementById('checkoutModal').style.display = 'none';
+                document.body.classList.remove('no-scroll');
+                e.target.reset();
+            } catch(err) {
+                alert("حدث خطأ أثناء إرسال الطلب.");
+            }
         };
 
         window.openAdminCheck = function() {
@@ -1343,6 +1332,12 @@
             }
 
             document.getElementById('settingsModal').style.display = 'flex';
+            document.body.classList.add('no-scroll');
+        };
+        
+        window.showOrdersModal = function() {
+            renderOrdersAdmin();
+            document.getElementById('manageOrdersModal').style.display = 'flex';
             document.body.classList.add('no-scroll');
         };
 
@@ -1902,6 +1897,65 @@
                 reader.onerror = error => reject(error);
                 reader.readAsDataURL(file);
             });
+        }
+        
+        function getWhatsappLink(phone) {
+            let p = phone.trim();
+            // Remove non-digits
+            p = p.replace(/\D/g, '');
+            // If starts with 07, replace 0 with 964
+            if (p.startsWith('07')) {
+                p = '964' + p.substring(1);
+            }
+            // If just 7..., add 964 (common issue)
+            if (p.startsWith('7') && p.length === 10) {
+                p = '964' + p;
+            }
+            return `https://wa.me/${p}`;
+        }
+
+        function renderOrdersAdmin() {
+            const list = document.getElementById('adminOrdersList');
+            if(!list) return;
+            
+            // Sort by date (newest first)
+            const sorted = [...ordersData].sort((a,b) => new Date(b.date) - new Date(a.date));
+            
+            if (sorted.length === 0) {
+                list.innerHTML = '<div style="text-align:center; color:var(--text-secondary); padding:20px;">لا توجد طلبات جديدة</div>';
+                return;
+            }
+
+            list.innerHTML = sorted.map((order, index) => {
+                const waLink = getWhatsappLink(order.customer.phone);
+                
+                return `
+                <div class="order-item">
+                    <div class="order-header">
+                        <span>#${order.id} - ${order.customer.name}</span>
+                        <span>$${order.total}</span>
+                    </div>
+                    <div class="order-details">
+                        ${order.customer.gov}, ${order.customer.address}
+                    </div>
+                    <div class="order-details" style="margin-top:5px;">
+                         ${new Date(order.date).toLocaleString('ar-EG')}
+                    </div>
+                    
+                    <div class="order-products">
+                        ${order.items.map(i => `
+                            <div class="order-product">
+                                <span>${i.name}</span>
+                                <span>$${i.price}</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <a href="${waLink}" target="_blank" class="whatsapp-btn">
+                        <i class="fab fa-whatsapp"></i> ${order.customer.phone}
+                    </a>
+                </div>
+            `}).join('');
         }
 
         function renderBrandsAdmin() {

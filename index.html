@@ -4,8 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>AMAZON</title>
+    
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="fav.PNG">
+    <link rel="shortcut icon" href="fav.PNG" type="image/png">
+    <link rel="apple-touch-icon" href="fav.PNG">
+    <link rel="apple-touch-icon" sizes="76x76" href="fav.PNG">
+    <link rel="apple-touch-icon" sizes="120x120" href="fav.PNG">
+    <link rel="apple-touch-icon" sizes="152x152" href="fav.PNG">
+    <link rel="mask-icon" href="fav.PNG" color="#0984e3">
+    <meta name="msapplication-TileImage" content="fav.PNG">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Cinzel+Decorative:wght@700;900&family=Russo+One&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cairo:wght@400;600;700;900&family=Changa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Orbitron:wght@400;700;900&family=Racing+Sans+One&family=Russo+One&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -15,7 +27,7 @@
            ========================================= */
         :root {
             --font-main: 'Cairo', sans-serif;
-            --font-logo: 'Cinzel Decorative', cursive;
+            --font-logo: 'Russo One', sans-serif; /* Default */
             --font-english: 'Russo One', sans-serif;
             
             /* Premium Light Theme */
@@ -232,8 +244,21 @@
 
         /* Products Grid */
         .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 30px; padding-bottom: 60px; }
-        .product-card { background: var(--bg-card); border-radius: var(--radius-md); transition: var(--transition); position: relative; display: flex; flex-direction: column; border: 1px solid var(--border-color); box-shadow: var(--shadow-sm); overflow: hidden; }
-        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: var(--primary-color); }
+        
+        /* Updated Product Card Style - RED BACKGROUND */
+        .product-card { 
+            background: #d63031; /* Red Background */
+            border-radius: var(--radius-md); 
+            transition: var(--transition); 
+            position: relative; 
+            display: flex; 
+            flex-direction: column; 
+            border: 1px solid var(--border-color); 
+            box-shadow: var(--shadow-sm); 
+            overflow: hidden; 
+        }
+        
+        .product-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-lg); border-color: #ff7675; }
         
         .card-img-box { 
             height: 300px; 
@@ -243,50 +268,102 @@
             display: flex; 
             align-items: center; 
             justify-content: center; 
-            background: transparent; /* No white background */
+            background: transparent; 
             border-bottom: none; 
-            background-size: cover; /* Support for background image */
+            background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
         }
-
+        
         .card-img-box img { 
             width: 100%; 
             height: 100%; 
             object-fit: contain; 
             transition: transform 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94); 
-            filter: drop-shadow(0 5px 15px rgba(0,0,0,0.05));
-            z-index: 1; /* Ensure product image is above background */
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.3)); /* Stronger shadow for contrast on red */
+            z-index: 1; 
         }
-
+        
         .product-card:hover .card-img-box img { transform: scale(1.1); }
         
-        /* Discount Badge */
+        /* Discount Badge - Updated for Red Bg */
         .discount-badge { 
             position: absolute; 
             top: 15px; 
-            right: 15px; /* RTL default */
-            background: var(--accent-gradient); 
-            color: white; 
+            right: 15px; 
+            background: #ffffff; /* White background */
+            color: #d63031; /* Red text */
             padding: 5px 12px; 
             border-radius: 8px; 
             font-size: 12px; 
             font-weight: 900; 
             z-index: 10; 
-            box-shadow: 0 4px 10px rgba(255, 63, 52, 0.4); 
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
             text-transform: uppercase; 
         }
 
         .card-content { padding: 25px; display: flex; flex-direction: column; flex-grow: 1; }
-        .card-title { font-size: 20px; font-weight: 800; margin-bottom: 10px; line-height: 1.4; color: var(--text-primary); font-family: var(--font-english); }
-        .card-brand-name { font-size: 13px; text-transform: uppercase; color: var(--text-secondary); font-weight: 800; margin-bottom: 5px; letter-spacing: 1px; }
-        .card-price-row { margin-top: auto; display: flex; justify-content: space-between; align-items: center; padding-top: 15px; border-top: 1px solid var(--border-color); }
-        .price-container { display: flex; align-items: baseline; gap: 8px; }
-        .price { font-size: 24px; font-weight: 900; color: var(--text-primary); }
-        .old-price { font-size: 16px; text-decoration: line-through; color: var(--text-secondary); font-weight: 600; }
         
-        .add-cart-btn { background: var(--text-primary); color: var(--bg-card); width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; transition: var(--transition); font-size: 18px; }
-        .add-cart-btn:hover { background: var(--primary-color); color: #fff; transform: rotate(90deg); }
+        /* Text Colors Updated for Red Background */
+        .card-title { 
+            font-size: 20px; 
+            font-weight: 800; 
+            margin-bottom: 10px; 
+            line-height: 1.4; 
+            color: #ffffff; /* White Text */
+            font-family: var(--font-english); 
+        }
+        
+        .card-brand-name { 
+            font-size: 13px; 
+            text-transform: uppercase; 
+            color: #eeeeee; /* Off-white Text */
+            font-weight: 800; 
+            margin-bottom: 5px; 
+            letter-spacing: 1px; 
+        }
+        
+        .card-price-row { 
+            margin-top: auto; 
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            padding-top: 15px; 
+            border-top: 1px solid rgba(255, 255, 255, 0.2); /* Semi-transparent border */
+        }
+        
+        .price { 
+            font-size: 24px; 
+            font-weight: 900; 
+            color: #ffffff; /* White Price */
+        }
+        
+        .old-price { 
+            font-size: 16px; 
+            text-decoration: line-through; 
+            color: #dddddd; /* Lighter grey for old price */
+            font-weight: 600; 
+        }
+        
+        /* Button Updated for Red Background */
+        .add-cart-btn { 
+            background: #ffffff; /* White Button */
+            color: #d63031; /* Red Icon */
+            width: 45px; 
+            height: 45px; 
+            border-radius: 12px; 
+            display: flex; 
+            align-items: center; 
+            justify-content: center; 
+            transition: var(--transition); 
+            font-size: 18px; 
+        }
+        
+        .add-cart-btn:hover { 
+            background: #2d3436; /* Dark hover */
+            color: #fff; 
+            transform: rotate(90deg); 
+        }
 
         /* Categories Grid */
         .categories-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding-bottom: 60px; }

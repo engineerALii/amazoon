@@ -90,15 +90,15 @@
             font-family: var(--font-main);
             background-color: var(--bg-body);
             color: var(--text-primary);
-            transition: background 0.3s ease, color 0.3s ease, opacity 0.4s ease-in-out; /* Added opacity transition */
+            transition: background 0.3s ease, color 0.3s ease, opacity 0.5s ease-in-out;
             line-height: 1.6;
             font-weight: 700;
             text-transform: uppercase;
-            opacity: 0; /* Hide initially to prevent flash of unstyled content */
+            opacity: 0; /* Hidden initially */
         }
         
         body.loaded {
-            opacity: 1; /* Show when ready */
+            opacity: 1; /* Fade in when ready */
         }
 
         p, span, div, h1, h2, h3, h4, h5, h6 { letter-spacing: 0.5px; }
@@ -218,11 +218,7 @@
             -webkit-overflow-scrolling: touch;
         }
         .slider-track-container::-webkit-scrollbar { display: none; }
-        
-        .slider-track { 
-            display: inline-flex; 
-            gap: 25px; 
-        }
+        .slider-track { display: inline-flex; gap: 25px; }
         .slider-track-container.active { cursor: grabbing; }
 
         /* Brands */
@@ -912,39 +908,6 @@
         const brandsDocRef = doc(db, "app_data", "brands");
         const categoriesDocRef = doc(db, "app_data", "categories");
 
-        /* Initial Data (Fallback) */
-        const initialBrands = [
-            { name: "Nutrex Research", logo: "https://upload.wikimedia.org/wikipedia/commons/3/3d/Nutrex_Research_Logo.png" },
-            { name: "MuscleTech", logo: "MuscleTech.png" },
-            { name: "NOW", logo: "NOW.png" },
-            { name: "ALLMAX", logo: "ALLMAX.png" },
-            { name: "Force Factor", logo: "Force-Factor.png" },
-            { name: "Rule 1", logo: "Rule-1.png" },
-            { name: "Optimum Nutrition (ON)", logo: "Optimum-Nutrition.png" },
-            { name: "BSN", logo: "BSN.png" },
-            { name: "Mutant", logo: "Mutant.png" },
-            { name: "Cellucor", logo: "Cellucor.png" },
-            { name: "Dymatize", logo: "Dymatize.png" },
-            { name: "Perfect Sports", logo: "Perfect-Sports.png" },
-            { name: "Primeval Labs", logo: "Primeval-Labs.png" },
-            { name: "Animal (Universal Nutrition)", logo: "Animal.png" },
-            { name: "JNX Sports", logo: "JNX-Sports.png" },
-            { name: "Gaspari Nutrition", logo: "Gaspari.png" }
-        ];
-
-        const initialCategories = [
-            { name: "Protein", img: "https://images.unsplash.com/photo-1593095948071-474c5cc2989d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { name: "Creatine", img: "https://images.unsplash.com/photo-1579722821273-0f6c7d44362f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { name: "Pre-Workout", img: "https://images.unsplash.com/photo-1550505293-9c8cb404c107?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" },
-            { name: "Vitamins", img: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" }
-        ];
-        
-        const initialProducts = [
-            { id: 1, name: "Gold Standard Whey", price: 65, category: "Protein", brand: "Optimum Nutrition (ON)", img: "https://www.gnc.com/dw/image/v2/BBLB_PRD/on/demandware.static/-/Sites-master-catalog-gnc/default/dw1554523c/hi-res/350260_1.jpg", desc: "أفضل بروتين مبيعاً في العالم لسنوات متتالية." },
-            { id: 2, name: "Opti-Men", price: 30, category: "Vitamins", brand: "Optimum Nutrition (ON)", img: "https://www.gnc.com/dw/image/v2/BBLB_PRD/on/demandware.static/-/Sites-master-catalog-gnc/default/dwc62955f2/hi-res/916055_1.jpg", desc: "فيتامينات شاملة لصحة الرجل." },
-            { id: 3, name: "Platinum Creatine", price: 25, category: "Creatine", brand: "MuscleTech", img: "https://www.gnc.com/dw/image/v2/BBLB_PRD/on/demandware.static/-/Sites-master-catalog-gnc/default/dw9e133c94/hi-res/403756_1.jpg", desc: "كرياتين نقي لضخامة عضلية صافية." }
-        ];
-
         // Global State
         let brandsData = [];
         let categoriesData = [];
@@ -977,6 +940,8 @@
                 // Initialize if not exists
                 setDoc(settingsDocRef, siteConfig);
             }
+            // Reveal site after settings are loaded
+            document.body.classList.add('loaded');
         });
 
         // 2. Products Listener
@@ -984,8 +949,7 @@
             if (docSnap.exists()) {
                 products = docSnap.data().list || [];
             } else {
-                products = initialProducts;
-                setDoc(productsDocRef, { list: products });
+                setDoc(productsDocRef, { list: [] });
             }
             renderProducts();
             renderHomeProducts(); 
@@ -997,8 +961,7 @@
             if (docSnap.exists()) {
                 brandsData = docSnap.data().list || [];
             } else {
-                brandsData = initialBrands;
-                setDoc(brandsDocRef, { list: brandsData });
+                setDoc(brandsDocRef, { list: [] });
             }
             renderBrands();
             renderBrandsAdmin();
@@ -1009,8 +972,7 @@
             if (docSnap.exists()) {
                 categoriesData = docSnap.data().list || [];
             } else {
-                categoriesData = initialCategories;
-                setDoc(categoriesDocRef, { list: categoriesData });
+                setDoc(categoriesDocRef, { list: [] });
             }
             renderCategories();
             renderCategoryFilters();
@@ -1404,7 +1366,8 @@
             initCarousel();
             updateCartCount();
             applySiteSettings();
-            document.body.classList.add('loaded'); // Show body after init
+            // Fallback to show site if Firebase takes too long
+            setTimeout(() => document.body.classList.add('loaded'), 1500); 
         }
 
         function applySiteSettings() {

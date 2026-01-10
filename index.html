@@ -4,7 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Amazon Supplements</title>
-    <!-- Google Fonts: Added more sporty/professional fonts -->
+    
+    <!-- Favicon & App Icons -->
+    <link rel="icon" type="image/png" href="fav.PNG">
+    <link rel="shortcut icon" href="fav.PNG" type="image/png">
+    <link rel="apple-touch-icon" href="fav.PNG">
+    <link rel="apple-touch-icon" sizes="76x76" href="fav.PNG">
+    <link rel="apple-touch-icon" sizes="120x120" href="fav.PNG">
+    <link rel="apple-touch-icon" sizes="152x152" href="fav.PNG">
+    <link rel="mask-icon" href="fav.PNG" color="#0984e3">
+    <meta name="msapplication-TileImage" content="fav.PNG">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    
+    <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Cairo:wght@400;600;700;900&family=Changa:wght@400;700&family=Cinzel+Decorative:wght@700;900&family=Orbitron:wght@400;700;900&family=Racing+Sans+One&family=Russo+One&family=Tajawal:wght@400;700;900&display=swap" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -109,9 +121,11 @@
         /* Specific overrides for LTR layout */
         html[dir="ltr"] .logo i { margin-right: 5px; margin-left: 0; }
         html[dir="ltr"] .form-group { text-align: left; }
-        html[dir="ltr"] .footer-contact i { margin-right: 10px; margin-left: 0; }
+        /* FIX: Changed selector to be more specific to contact items only, not social icons */
+        html[dir="ltr"] .contact-item i { margin-right: 10px; margin-left: 0; } 
         html[dir="ltr"] .footer-links a::before { content: '\f105'; } /* Arrow right */
         html[dir="ltr"] .nav-links a::after { left: 0; right: auto; }
+        html[dir="ltr"] .modal-close { left: auto; right: 20px; }
 
         p, span, div, h1, h2, h3, h4, h5, h6 { letter-spacing: 0.5px; }
         a { text-decoration: none; color: inherit; transition: var(--transition); }
@@ -256,19 +270,24 @@
         /* Draggable Slider */
         .slider-wrapper { background: var(--bg-card); padding: 50px 0; border-top: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); }
         .slider-track-container { 
-            direction: ltr;
+            direction: ltr; /* Important for JS calculations */
             overflow-x: auto; 
             overflow-y: hidden;
             padding: 20px 0; 
             position: relative; 
             cursor: grab;
             white-space: nowrap;
+            /* Hide scrollbar within track but keep dragging */
             scrollbar-width: none; 
             -ms-overflow-style: none;
             -webkit-overflow-scrolling: touch;
         }
         .slider-track-container::-webkit-scrollbar { display: none; }
-        .slider-track { display: inline-flex; gap: 25px; }
+        
+        .slider-track { 
+            display: inline-flex; 
+            gap: 25px; 
+        }
         .slider-track-container.active { cursor: grabbing; }
 
         /* Brands */
@@ -294,8 +313,22 @@
             box-shadow: var(--shadow-sm); 
         }
         .brand-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-md); border-color: var(--primary-color); }
-        .brand-card img { width: auto; height: auto; max-width: 100%; max-height: 100%; object-fit: contain; transition: var(--transition); filter: grayscale(100%); opacity: 0.8; }
-        .brand-card:hover img { filter: grayscale(0%); opacity: 1; transform: scale(1.05); }
+        
+        .brand-card img { 
+            width: auto; 
+            height: auto; 
+            max-width: 100%; 
+            max-height: 100%; 
+            object-fit: contain; 
+            transition: var(--transition); 
+            filter: grayscale(100%); 
+            opacity: 0.8;
+        }
+        .brand-card:hover img {
+            filter: grayscale(0%);
+            opacity: 1;
+            transform: scale(1.05);
+        }
 
         /* Admin Styles & Toolbar */
         .admin-toolbar {
@@ -334,17 +367,51 @@
             transform: translateY(-2px);
         }
 
-        .btn-admin.danger { color: var(--accent-color); border-color: rgba(214, 48, 49, 0.2); }
-        .btn-admin.danger:hover { background: var(--accent-color); color: white; border-color: var(--accent-color); }
+        .btn-admin.danger {
+            color: var(--accent-color);
+            border-color: rgba(214, 48, 49, 0.2);
+        }
+        .btn-admin.danger:hover {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
 
         /* Form Group Styles */
-        .form-group { margin-bottom: 20px; text-align: right; }
-        html[dir="ltr"] .form-group { text-align: left; }
-        
-        .form-group label { display: block; margin-bottom: 10px; font-weight: 800; color: var(--text-primary); font-size: 14px; }
-        .form-input { width: 100%; padding: 12px 15px; border-radius: 10px; border: 2px solid var(--border-color); background: var(--bg-body); color: var(--text-primary); font-family: var(--font-main); outline: none; transition: var(--transition); font-weight: 600; font-size: 15px; }
-        .form-input:focus { border-color: var(--primary-color); background: var(--bg-card); box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1); }
-        textarea.form-input { resize: vertical; min-height: 100px; line-height: 1.6; }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            font-weight: 800;
+            color: var(--text-primary);
+            font-size: 14px;
+        }
+        .form-input {
+            width: 100%;
+            padding: 12px 15px;
+            border-radius: 10px;
+            border: 2px solid var(--border-color);
+            background: var(--bg-body);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            outline: none;
+            transition: var(--transition);
+            font-weight: 600;
+            font-size: 15px;
+        }
+        .form-input:focus {
+            border-color: var(--primary-color);
+            background: var(--bg-card);
+            box-shadow: 0 0 0 3px rgba(9, 132, 227, 0.1);
+        }
+        textarea.form-input {
+            resize: vertical;
+            min-height: 100px;
+            line-height: 1.6;
+        }
 
         /* Admin Lists */
         .admin-brands-list { display: flex; flex-direction: column; gap: 15px; width: 100%; overflow-y: auto; max-height: 55vh; padding-right: 5px; flex-grow: 1; }
@@ -374,6 +441,8 @@
         .modal-left { background: #fff; padding: 40px; display: flex; align-items: center; justify-content: center; height: 300px; }
         .modal-right { padding: 40px; display: flex; flex-direction: column; overflow-y: auto; }
         .modal-close { position: absolute; top: 20px; left: 20px; background: var(--bg-body); width: 45px; height: 45px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; box-shadow: var(--shadow-sm); font-size: 20px; font-weight: bold; }
+        
+        /* LTR Fix for Modal Close */
         html[dir="ltr"] .modal-close { left: auto; right: 20px; }
 
         /* Footer */
@@ -454,17 +523,12 @@
             color: var(--text-secondary);
             font-size: 0.95rem;
         }
-
-        .contact-item i {
-            color: var(--primary-color);
-            font-size: 1.1rem;
-            margin-top: 4px;
-        }
         
         .social-icons {
             display: flex;
             gap: 15px;
             margin-top: 10px;
+            /* Flex direction handles alignment based on dir="ltr/rtl" naturally */
         }
         
         .social-icon {
@@ -479,6 +543,11 @@
             transition: var(--transition);
             border: 2px solid var(--border-color);
             font-size: 18px;
+        }
+        
+        /* Ensure social icons don't get margins from generic rules */
+        .social-icon i {
+            margin: 0 !important; 
         }
         
         .social-icon:hover {
